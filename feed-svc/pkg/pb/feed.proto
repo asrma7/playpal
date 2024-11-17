@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package feed;
+
+option go_package = "./pkg/pb";
+
+service FeedService {
+  rpc CreateFeed(CreateFeedRequest) returns (CreateFeedResponse) {}
+  rpc FindOne(FindOneRequest) returns (FindOneResponse) {}
+  rpc FindAll(FindAllRequest) returns (FindAllResponse) {}
+}
+
+message CreateFeedRequest{
+  string title = 1;
+  string author = 2;
+  string datetime = 3;
+  int64 players = 4;
+  string location = 5;
+}
+message CreateFeedResponse{
+  int64 status = 1;
+  string error = 2;
+  int64 id = 3;
+}
+
+message FindOneData{
+  int64 id = 1;
+  string title = 2;
+  string author = 3;
+  string datetime = 4;
+  int64 players = 5;
+  string location = 6;
+}
+
+message FindOneRequest{
+  int64 id = 1;
+}
+message FindOneResponse{
+  int64 status = 1;
+  string error = 2;
+  FindOneData data = 3;
+}
+
+
+//FindAllRequest
+message FindAllRequest{
+}
+
+//FindAllResponse
+message FindAllResponse{
+  int64 status = 1;
+  string error = 2;
+  repeated FindOneData feeds = 3;
+}

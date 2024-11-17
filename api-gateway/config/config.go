@@ -1,13 +1,15 @@
 package config
 
 import (
-	"github.com/spf13/viper"
 	"log"
+
+	"github.com/spf13/viper"
 )
 
 type Config struct {
 	Port       string `mapstructure:"PORT"`
-	AuthSrvUrl string `mapstructure:"AUTH_SRV_URL"`
+	AuthSvcUrl string `mapstructure:"AUTH_SVC_URL"`
+	FeedSvcUrl string `mapstructure:"FEED_SVC_URL"`
 }
 
 func LoadConfig() (c Config, err error) {

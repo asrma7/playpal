@@ -34,7 +34,6 @@ message RegisterResponse {
 
 message ValidateTokenRequest {
   string token = 1;
-  string role = 2;
 }
 
 message ValidateTokenResponse {
