@@ -1,20 +1,37 @@
+.PHONY: run-all view-ports stop docker-build docker-push docker-run
+
 run-all:
-	cd api-gateway && start /b make server
-	cd auth-svc && start /b make server
-	cd feed-svc && start /b make server
+ifeq ($(OS),Windows_NT)
+	cd api-gateway && start /B make server
+	cd auth-svc && start /B make server
+	cd feed-svc && start /B make server
+else
+	cd api-gateway && make server &
+	cd auth-svc && make server &
+	cd feed-svc && make server &
+endif
 
 view-ports:
+ifeq ($(OS),Windows_NT)
 	netstat -ano | findstr :3000
 	netstat -ano | findstr :50051
 	netstat -ano | findstr :50052
+else
+	ss -tuln | grep :3000 || true
+	ss -tuln | grep :50051 || true
+	ss -tuln | grep :50052 || true
+endif
 
 stop:
-	# Kill the process running on port 3000
-	taskkill /F /PID $(shell netstat -ano | findstr :3000 | awk '{print $$5}') || true
-	# Kill the process running on port 50051
-	taskkill /F /PID $(shell netstat -ano | findstr :50051 | awk '{print $$5}') || true
-	# Kill the process running on port 50052
-	taskkill /F /PID $(shell netstat -ano | findstr :50052 | awk '{print $$5}') || true
+ifeq ($(OS),Windows_NT)
+	-for /f "tokens=5" %a in ('netstat -ano ^| findstr :3000') do taskkill /F /PID %a
+	-for /f "tokens=5" %a in ('netstat -ano ^| findstr :50051') do taskkill /F /PID %a
+	-for /f "tokens=5" %a in ('netstat -ano ^| findstr :50052') do taskkill /F /PID %a
+else
+	kill -9 $(shell lsof -ti:3000) || true
+	kill -9 $(shell lsof -ti:50051) || true
+	kill -9 $(shell lsof -ti:50052) || true
+endif
 
 docker-build:
 	cd api-gateway && docker build -t ghcr.io/asrma7/playpal-api-gateway .
@@ -27,4 +44,5 @@ docker-push:
 	docker push ghcr.io/asrma7/playpal-feed-svc
 
 docker-run:
-	docker docker compose up
+	docker compose up
+
