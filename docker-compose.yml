@@ -1,0 +1,57 @@
+services:
+  api-gateway:
+    image: ghcr.io/asrma7/playpal-api-gateway
+    environment:
+      - PORT=:3000
+      - AUTH_SVC_URL=auth-svc:50051
+      - PRODUCT_SVC_URL=product-svc:50052
+      - ORDER_SVC_URL=order-svc:50053
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-svc
+      - feed-svc
+    restart: always
+
+  auth-svc:
+    image: ghcr.io/asrma7/playpal-auth-svc
+    ports:
+      - "50051:50051"
+    environment:
+      - PORT=:50051
+      - DB_URL=postgres://postgres:postgres@auth-db:5432/auth_svc
+      - JWT_SECRET_KEY=hdf9f2h2h2uhiukj32
+    depends_on:
+      - auth-db
+    restart: always
+
+  feed-svc:
+    image: ghcr.io/asrma7/playpal-feed-svc
+    ports:
+      - "50052:50052"
+    environment:
+      - PORT=:50052
+      - DB_URL=postgres://postgres:postgres@feed-db:5432/feed_svc
+    depends_on:
+      - feed-db
+    restart: always
+
+  auth-db:
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=auth_svc
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: always
+
+  feed-db:
+    image: postgres:latest
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_DB=feed_svc
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: always

@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/asrma7/playpal/auth-svc/pkg/pb"
+	"github.com/asrma7/playpal/api-gateway/pkg/proto/auth/pb"
 	"github.com/gin-gonic/gin"
 )
 
@@ -37,7 +37,6 @@ func (c *AuthMiddlewareConfig) UserAuth(ctx *gin.Context) {
 
 	res, err := c.svc.Client.ValidateToken(context.Background(), &pb.ValidateTokenRequest{
 		Token: token[1],
-		Role:  "user",
 	})
 
 	if err != nil || res.Status != http.StatusOK {

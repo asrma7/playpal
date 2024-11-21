@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/asrma7/playpal/auth-svc/pkg/pb"
+	"github.com/asrma7/playpal/api-gateway/pkg/proto/auth/pb"
 	"github.com/gin-gonic/gin"
 )
 

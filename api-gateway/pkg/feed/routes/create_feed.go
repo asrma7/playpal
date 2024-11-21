@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/asrma7/playpal/feed-svc/pkg/pb"
+	"github.com/asrma7/playpal/api-gateway/pkg/proto/feed/pb"
 	"github.com/gin-gonic/gin"
 )
 

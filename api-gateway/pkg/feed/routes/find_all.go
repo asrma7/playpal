@@ -4,12 +4,12 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/asrma7/playpal/feed-svc/pkg/pb"
+	"github.com/asrma7/playpal/api-gateway/pkg/proto/feed/pb"
 	"github.com/gin-gonic/gin"
 )
 
 func FindAll(ctx *gin.Context, conn pb.FeedServiceClient) {
-	res, err := conn.FindAll(context.Background(), &pb.FindAllRequest{})
+	res, err := conn.FindAllFeed(context.Background(), &pb.FindAllRequest{})
 
 	if err != nil {
 		ctx.AbortWithError(http.StatusInternalServerError, err)

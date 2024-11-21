@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/asrma7/playpal/api-gateway/config"
-	"github.com/asrma7/playpal/auth-svc/pkg/pb"
+	"github.com/asrma7/playpal/api-gateway/pkg/proto/auth/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

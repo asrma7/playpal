@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package feed;
 
-option go_package = "./pkg/pb";
+option go_package = "./pkg/proto/feed/pb";
 
 service FeedService {
   rpc CreateFeed(CreateFeedRequest) returns (CreateFeedResponse) {}

@@ -5,14 +5,14 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/asrma7/playpal/feed-svc/pkg/pb"
+	"github.com/asrma7/playpal/api-gateway/pkg/proto/feed/pb"
 	"github.com/gin-gonic/gin"
 )
 
 func FindOne(ctx *gin.Context, conn pb.FeedServiceClient) {
 	id, _ := strconv.ParseInt(ctx.Param("id"), 10, 32)
 
-	res, err := conn.FindOne(context.Background(), &pb.FindOneRequest{
+	res, err := conn.FindOneFeed(context.Background(), &pb.FindOneRequest{
 		Id: int64(id),
 	})
 
